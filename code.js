@@ -1026,3 +1026,87 @@ const makeCase = function(input, caseType) {
 // console.log(makeCase("this is a string", "vowel"));
 // console.log(makeCase("this is a string", "consonant"));
 // console.log(makeCase("this is a string", ["upper", "snake"]));
+
+
+// Kata 14
+
+const urlDecode = function(text) {
+  // Put your solution here
+  let urlObj = {};
+  let key = '';
+  let value = '';
+  let posEqual;
+  numEqual = text.match(/=/g || []).length;
+  
+  while (numEqual > 0) {
+    posEqual = text.indexOf('=');
+    key = text.substring(0, posEqual);
+    if (text.indexOf('&') > -1) {
+      value = text.substring(posEqual + 1, text.indexOf('&'));
+      value = value.replace(/%20/g, ' ');
+      urlObj[key] = value;
+      text = text.substring(text.indexOf('&') + 1, text.length);
+    } else {
+      value = text.substring(posEqual + 1, text.length);
+      value = value.replace(/%20/g, ' ');
+      urlObj[key] = value;
+    }
+    numEqual--;
+  }
+  return urlObj
+}
+
+// console.log(urlDecode("duck=rubber"));
+// console.log(urlDecode("bootcamp=Lighthouse%20Labs"));
+// console.log(urlDecode("city=Vancouver&weather=lots%20of%20rain"));
+// console.log(urlDecode("city=Vancouver&weather=lots%20of%20rain").weather);
+
+
+// Kata 15
+
+const squareCode = function(message) {
+  // Put your solution here
+  let squareCodeTable = []
+  let resultTable = []
+  let k = 0;
+  let x = 0;
+
+  message = message.replace(/ /g, '');
+  numCaracters = Math.ceil(Math.sqrt(message.length));
+  numLines = Math.ceil(message.length / numCaracters);
+
+  for (let i = 0; i < numLines; i++) {
+    squareCodeTable[i] = [];
+    for (let j = 0; j < numCaracters; j++) {
+      if (k < message.length) {
+        squareCodeTable[i][j] = message[k];
+        k++
+      }
+    }
+  }
+  //console.log(squareCodeTable)
+  //console.log(squareCodeTable[0].length)
+
+  
+  while (x < squareCodeTable[0].length) {
+    let line = '';
+    for (let i = 0; i < squareCodeTable.length; i++) {
+      //console.log(squareCodeTable[i][x])
+      if (squareCodeTable[i][x] !== undefined) {
+        line = line.concat(squareCodeTable[i][x])
+        //console.log(line.concat(squareCodeTable[i][x]))
+        console.log(line)
+      }
+    }
+    resultTable.push(line)
+    x++; 
+  }
+  return resultTable
+};
+
+//console.log(squareCode("chill out"));
+console.log(squareCode("feed the dog"));
+// console.log(squareCode("have a nice day"));
+// console.log(squareCode("if man was meant to stay on the ground god would have given us roots"));
+
+
