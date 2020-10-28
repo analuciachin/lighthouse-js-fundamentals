@@ -1084,9 +1084,6 @@ const squareCode = function(message) {
       }
     }
   }
-  //console.log(squareCodeTable)
-  //console.log(squareCodeTable[0].length)
-
   
   while (x < squareCodeTable[0].length) {
     let line = '';
@@ -1094,8 +1091,6 @@ const squareCode = function(message) {
       //console.log(squareCodeTable[i][x])
       if (squareCodeTable[i][x] !== undefined) {
         line = line.concat(squareCodeTable[i][x])
-        //console.log(line.concat(squareCodeTable[i][x]))
-        console.log(line)
       }
     }
     resultTable.push(line)
@@ -1104,9 +1099,114 @@ const squareCode = function(message) {
   return resultTable
 };
 
-//console.log(squareCode("chill out"));
-console.log(squareCode("feed the dog"));
+// console.log(squareCode("chill out"));
+// console.log(squareCode("feed the dog"));
 // console.log(squareCode("have a nice day"));
 // console.log(squareCode("if man was meant to stay on the ground god would have given us roots"));
 
 
+// Kata 16
+
+const generateBoard = function (whiteQueen, blackQueen) {
+  let board = [];
+  const numRows = 8;
+  const numCols = 8;
+  for (let i = 0; i < numCols; i++) {
+    board[i] = [];
+    for (let j = 0; j < numRows; j++) {
+      if ((i === whiteQueen[0] && j === whiteQueen[1]) || (i === blackQueen[0] && j === blackQueen[1])) {
+        board[i][j] = 1;
+      } else {
+        board[i][j] = 0;
+      }
+    }
+  }
+  return board
+}
+
+const queenThreat = function (generatedBoard) {
+  let attackPos = false;
+  let firstQueen = [];
+  let secondQueen = [];
+
+  for (let i = 0; i < generatedBoard.length; i++) {
+    for (let j = 0; j < generatedBoard[i].length; j++) {
+      if (generatedBoard[i][j] === 1) {
+        if (firstQueen.length < 1) {
+          firstQueen.push(i, j);
+        }
+        else {
+          secondQueen.push(i, j);
+        }
+      }
+    }
+  }
+
+  if (firstQueen[0] === secondQueen[0]) { // same row
+    attackPos = true;
+    //console.log('row')
+  } else if (firstQueen[1] === secondQueen[1]) { // same column
+    attackPos = true; 
+    //console.log('column')
+  }
+
+  let i1 = firstQueen[0] - 1;
+  let j1 = firstQueen[1] - 1;
+  while (i1 > -1 && j1 > -1) {
+    if (generatedBoard[i1][j1] === 1) {
+      attackPos = true;
+      //console.log('diag1');
+    }
+    i1--;
+    j1--;
+  }
+
+  let i2 = firstQueen[0] - 1;
+  let j2 = firstQueen[1] + 1;
+  while (i2 > -1 && j2 < 8) {
+    if (generatedBoard[i2][j2] === 1) {
+      attackPos = true;
+      //console.log('diag2');
+    }
+    i2--;
+    j2++;
+  }
+ 
+  let i3 = firstQueen[0] + 1;
+  let j3 = firstQueen[1] - 1;
+  while (i3 < 8 && j3 > -1) {
+    if (generatedBoard[i3][j3] === 1) {
+      attackPos = true;
+      //console.log('diag3');
+    }
+    i3++;
+    j3--;
+  }
+
+  let i4 = firstQueen[0] + 1;
+  let j4 = firstQueen[1] + 1;
+  while (i4 < 8 && j4 < 8) {
+    if (generatedBoard[i4][j4] === 1) {
+      attackPos = true;
+      //console.log('diag4');
+    }
+    i4++;
+    j4++;
+  }
+  
+  return attackPos
+}
+
+
+// let whiteQueen = [0, 5];
+// let blackQueen = [5, 0];
+// let generatedBoard = generateBoard(whiteQueen, blackQueen);
+// console.log(generatedBoard);
+// console.log(queenThreat(generatedBoard));
+
+
+let whiteQueen = [0, 0];
+let blackQueen = [5, 7];
+let generatedBoard = generateBoard(whiteQueen, blackQueen);
+console.log(generatedBoard);
+console.log(queenThreat(generatedBoard));
