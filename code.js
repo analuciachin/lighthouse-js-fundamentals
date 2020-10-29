@@ -1205,8 +1205,58 @@ const queenThreat = function (generatedBoard) {
 // console.log(queenThreat(generatedBoard));
 
 
-let whiteQueen = [0, 0];
-let blackQueen = [5, 7];
-let generatedBoard = generateBoard(whiteQueen, blackQueen);
-console.log(generatedBoard);
-console.log(queenThreat(generatedBoard));
+// let whiteQueen = [0, 0];
+// let blackQueen = [5, 7];
+// let generatedBoard = generateBoard(whiteQueen, blackQueen);
+// console.log(generatedBoard);
+// console.log(queenThreat(generatedBoard));
+
+
+// Kata 17
+
+const blocksAway = function(directions) {
+  // Put your solution here
+  let taxiPos = [0,0];
+  let finalPos = {};
+  let moveHorizontal = false;
+  for (let i = 0; i < directions.length; i+=2) {
+    if (i === 0) { //first move
+      if (directions[i] === 'right') {
+        taxiPos[1] = taxiPos[1] + directions[i + 1];
+        moveHorizontal = true;
+      }
+      else {
+        taxiPos[0] = taxiPos[0] + directions[i + 1];
+        moveHorizontal = false;
+      }
+    } else {
+      if (directions[i] === directions[i - 2] && moveHorizontal === true && taxiPos[0] === 0) {
+        taxiPos[1] = taxiPos[1] + directions[i + 1];
+        moveHorizontal = true;
+      }
+      if (directions[i] === directions[i - 2] && moveHorizontal === true && taxiPos[0] !== 0) {
+        taxiPos[0] = taxiPos[0] - directions[i + 1];
+        moveHorizontal = false;
+      }
+      else if (directions[i] === directions[i - 2] && moveHorizontal === false) {
+        taxiPos[1] = taxiPos[1] - directions[i + 1];
+        moveHorizontal = true;
+      }
+      else if (directions[i] !== directions[i - 2] && moveHorizontal === true) {
+        taxiPos[0] = taxiPos[0] + directions[i + 1];
+        moveHorizontal = false;
+      }
+      else if (directions[i] !== directions[i - 2] && moveHorizontal === false) {
+        taxiPos[1]= taxiPos[1] + directions[i + 1];
+        moveHorizontal = true;
+      }
+    }
+  }
+  finalPos.east = taxiPos[1];
+  finalPos.north = taxiPos[0];
+  return finalPos
+};
+
+console.log(blocksAway(["right", 2, "left", 3, "left", 1]));
+console.log(blocksAway(["left", 1, "right", 1, "left", 1, "right", 1, "left", 1, "right", 1]));
+console.log(blocksAway(["left", 3, "right", 1, "right", 3, "right", 1]));
